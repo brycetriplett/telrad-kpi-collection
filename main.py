@@ -4,6 +4,7 @@ from datetime import datetime
 from netaddr import IPNetwork
 from easysnmp import Session
 from threading import Thread
+import traceback
 import time
 
 
@@ -44,12 +45,30 @@ oids = {
 
 def main():
     while True:
-        start_time = time.time()
         update_influx(poll())
-        end_time = time.time()
-        print(f'{str(datetime.now())}: script took {str(end_time-start_time)} seconds')
 
 
+def timer(func):
+    def inner(*args, **kwargs):
+        start = time()
+
+        try: 
+            result = func(*args, **kwargs)
+            return result
+
+        except Exception: 
+            print(''.join(traceback.format_exc()))
+            return False
+        
+        finally: print((
+            f"{func.__name__} took " 
+            f"{str(int(time()-start))} second(s)"
+        ))
+    
+    return inner
+
+
+@timer
 def poll():
     """poll the entire network for active CPE. Creates a thread for each IP to speed up the process"""
 
@@ -98,6 +117,7 @@ def poll():
     return resultdict
 
 
+@timer
 def update_influx(data):
     """inserts the result from the snmp process into the influx database"""
 
