@@ -8,6 +8,7 @@ import traceback
 import time
 
 
+
 config = ConfigParser()
 config.read('config.ini')
 
@@ -50,7 +51,7 @@ def main():
 
 def timer(func):
     def inner(*args, **kwargs):
-        start = time()
+        start = time.time()
 
         try: 
             result = func(*args, **kwargs)
@@ -62,7 +63,7 @@ def timer(func):
         
         finally: print((
             f"{func.__name__} took " 
-            f"{str(int(time()-start))} second(s)"
+            f"{str(int(time.time()-start))} second(s)"
         ))
     
     return inner
