@@ -127,7 +127,7 @@ def update_influx(data):
         json_body = [
             {
                 "measurement": "snmp",
-                "tags": {'host': device},
+                "tags": {'host': f'"{device}"'},
                 "time": str(data[device]['time']),
 
                 "fields": {
