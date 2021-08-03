@@ -47,8 +47,7 @@ oids = {
 def main():
     while True:
         data = poll()
-        print(data)
-        #if data: update_influx(data)
+        if data: update_influx(data)
 
 
 def timer(func):
