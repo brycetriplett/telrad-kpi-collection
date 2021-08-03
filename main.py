@@ -134,7 +134,7 @@ def update_influx(data):
                 "fields": {oid: str(data[device][oid]) for oid in data[device]}
             }
         ]
-
+        print(json_body)
         client.write_points(json_body)
 
 
