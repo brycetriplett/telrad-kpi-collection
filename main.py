@@ -70,7 +70,6 @@ def timer(func):
     return inner
 
 
-@timer
 def poll():
     """poll the entire network for active CPE. Creates a thread for each IP to speed up the process"""
 
@@ -119,7 +118,6 @@ def poll():
     return resultdict
 
 
-@timer
 def update_influx(data):
     """inserts the result from the snmp process into the influx database"""
 
