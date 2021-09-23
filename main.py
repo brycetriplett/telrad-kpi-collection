@@ -123,6 +123,7 @@ def update_influx(data):
     """inserts the result from the snmp process into the influx database"""
     fail_tally = 0
     success_tally = 0
+    fail_list = []
 
     client = InfluxDBClient(hostname, port, username, password, database)
 
@@ -145,10 +146,11 @@ def update_influx(data):
             success_tally += 1
         
         except Exception:
+            fail_list.append(json_body)
             fail_tally += 1
 
     
-    return [success_tally, fail_tally]
+    return fail_list
 
 
 
