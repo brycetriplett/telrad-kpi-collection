@@ -142,6 +142,32 @@ def update_influx(data):
         client.write_points(json_body, protocol='json')
 
 
+
+def ffs():
+    return {
+        '198.153.62.249': {
+            'time': '2021-09-23T20:07:32.787193', 
+            'connectiontime': '294560', 
+            'RSRP0': '-116', 
+            'RSRP1': '-117', 
+            'CINR0': '8', 
+            'CINR1': '8', 
+            'upload': '134.000', 
+            'download': '5676.000', 
+            'pci': '61', 
+            'model': 'CPE9000', 
+            'firmware': '01.01.02.162', 
+            'niceuptime': '64 days 20 hours 3 minute'
+        }
+    }
+
+
+def testing():
+    update_influx(ffs())
+
+
+
+
 if __name__ == "__main__":
-    main()
+    testing()
    
