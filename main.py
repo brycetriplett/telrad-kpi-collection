@@ -139,7 +139,7 @@ def update_influx(data):
             }
         ]
         print(json_body)
-        client.write_points(json_body, Protocol='json')
+        client.write_points(json_body, protocol='json')
 
 
 if __name__ == "__main__":
