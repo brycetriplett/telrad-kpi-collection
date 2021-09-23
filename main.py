@@ -121,6 +121,8 @@ def poll():
 
 def update_influx(data):
     """inserts the result from the snmp process into the influx database"""
+    fail_tally = 0
+    success_tally = 0
 
     client = InfluxDBClient(hostname, port, username, password, database)
 
@@ -138,9 +140,15 @@ def update_influx(data):
                 }
             }
         ]
-        #print(json_body)
-        client.write_points(json_body, protocol='json')
-        print('wrote!')
+        try:
+            client.write_points(json_body, protocol='json')
+            success_tally += 1
+        
+        except Exception:
+            fail_tally += 1
+
+    
+    return [success_tally, fail_tally]
 
 
 
@@ -164,7 +172,7 @@ def ffs():
 
 
 def testing():
-    update_influx(ffs())
+    print(update_influx(poll()))
 
 
 
