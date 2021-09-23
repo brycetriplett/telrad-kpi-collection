@@ -1,4 +1,5 @@
 from configparser import ConfigParser
+from typing import Protocol
 from influxdb import InfluxDBClient
 from datetime import datetime
 from netaddr import IPNetwork
@@ -138,7 +139,7 @@ def update_influx(data):
             }
         ]
         print(json_body)
-        client.write_points(json_body)
+        client.write_points(json_body, Protocol='json')
 
 
 if __name__ == "__main__":
