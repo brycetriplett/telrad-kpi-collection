@@ -128,7 +128,7 @@ def update_influx(data):
             {
                 "measurement": "snmp",
                 "tags": {'host': f'"{device}"'},
-                "time": str(data[device]['time']),
+                #"time": str(data[device]['time']),
 
                 "fields": {
                     oid: str(data[device][oid]) 
