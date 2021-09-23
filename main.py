@@ -47,8 +47,10 @@ oids = {
 def main():
     while True:
         data = poll()
-        print(data)
-        #if data: update_influx(data)
+
+        if data:
+            result = update_influx(data)
+            print(f'{str(result[0])} successes and {str(result[1])} failures')
 
 
 def timer(func):
@@ -123,7 +125,6 @@ def update_influx(data):
     """inserts the result from the snmp process into the influx database"""
     fail_tally = 0
     success_tally = 0
-    fail_list = []
 
     client = InfluxDBClient(hostname, port, username, password, database)
 
@@ -146,39 +147,12 @@ def update_influx(data):
             success_tally += 1
         
         except Exception:
-            fail_list.append(json_body)
             fail_tally += 1
 
     
-    return fail_list
-
-
-
-def ffs():
-    return {
-        '198.153.62.249': {
-            'time': '2021-09-23T20:07:32.787193', 
-            'connectiontime': '294560', 
-            'RSRP0': '-116', 
-            'RSRP1': '-117', 
-            'CINR0': '8', 
-            'CINR1': '8', 
-            'upload': '134.000', 
-            'download': '5676.000', 
-            'pci': '61', 
-            'model': 'CPE9000', 
-            'firmware': '01.01.02.162', 
-            'niceuptime': '64 days 20 hours 3 minute'
-        }
-    }
-
-
-def testing():
-    print(update_influx(poll()))
-
-
+    return [success_tally, fail_tally]
 
 
 if __name__ == "__main__":
-    testing()
+    main()
    
